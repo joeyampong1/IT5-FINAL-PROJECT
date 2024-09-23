@@ -20,7 +20,7 @@ class HotelManagementSystem:
 
         # ===================== 1st Image (Next to the 2nd Image) ==================
         try:
-            img1 = Image.open("photor.jpeg")
+            img1 = Image.open("1photor.jpeg")
             img1 = img1.resize((1320, 140), Image.LANCZOS)  # Adjusted width to fit next to the second image
             self.photoimg1 = ImageTk.PhotoImage(img1)
 
