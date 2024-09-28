@@ -14,7 +14,7 @@ class HotelManagementSystemMain:
         self.root.mainloop()
 
     def open_menu(self):
-        self.login_register.pack_forget()  # Hide the login frame
+        self.login_register.pack_forget()
         self.menu = HotelManagementSystem(self.root)
         self.menu.pack(fill="both", expand=True)
 

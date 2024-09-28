@@ -20,7 +20,7 @@ class HotelManagementSystem:
 
         # ===================== 1st Image (Next to the 2nd Image) ==================
         try:
-            img1 = Image.open("1photor.jpeg")
+            img1 = Image.open("banner2.png")
             img1 = img1.resize((1320, 140), Image.LANCZOS)  # Adjusted width to fit next to the second image
             self.photoimg1 = ImageTk.PhotoImage(img1)
 
@@ -31,7 +31,7 @@ class HotelManagementSystem:
             print("Image file not found. Please check the path for the first image.")
 
         # ===================== Title (below the images) =====================
-        lbl_title = Label(self.root, text="GO JEREZA CPA", font=("times new roman", 40, "bold"),
+        lbl_title = Label(self.root, text="HOTEL MANAGEMENT SYSTEM", font=("times new roman", 40, "bold"),
                           bg="#89b0a4", fg="#f7e7ce", bd=4, relief=RIDGE)
         lbl_title.place(x=0, y=140, width=1550, height=50)
 
@@ -70,7 +70,7 @@ class HotelManagementSystem:
         logout_btn.grid(row=4, column=0, pady=5)
 
         # ===================== Right Side Image =====================
-        img3 = Image.open("rightbuttom..jpeg")
+        img3 = Image.open("menubg.jpg")
         img3 = img3.resize((1310, 590), Image.LANCZOS)  # Adjust the size as needed
         self.photoimg3 = ImageTk.PhotoImage(img3)
 
