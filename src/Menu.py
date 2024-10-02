@@ -50,7 +50,7 @@ class HotelManagementSystem:
 
         # ===================== Buttons =====================
         cust_btn = Button(btn_frame, text="CUSTOMER", width=22, font=("times new roman", 14, "bold"),
-                          bg="#89b0a4", fg="#f7e7ce", bd=0)
+                          bg="#89b0a4", fg="#f7e7ce", bd=0, )
         cust_btn.grid(row=0, column=0, pady=1)
 
         room_btn = Button(btn_frame, text="ROOM", width=22, font=("times new roman", 14, "bold"),

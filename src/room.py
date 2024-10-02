@@ -43,7 +43,7 @@ class Roombooking:
         except Exception as e:
             print(f"Error loading image: {e}")
             # You can still display a placeholder label
-            lblimg = Label(self.root, text="No Image", bd=0, relief=RIDGE)
+            lblimg = Label(self.root, text="Logo", bd=0, relief=RIDGE)
             lblimg.place(x=5, y=2, width=100, height=40)
             
             
