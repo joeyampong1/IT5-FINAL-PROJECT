@@ -10,7 +10,7 @@ class HotelManagementSystem:
 
         # ===================== 2nd Image (Left Side) ==================
         try:
-            img2 = Image.open("logo.jpeg")
+            img2 = Image.open(r"C:\Users\User\Music\pythonProject2\logo.jpeg")
             img2 = img2.resize((230, 140), Image.LANCZOS)
             self.photoimg2 = ImageTk.PhotoImage(img2)
 
@@ -21,7 +21,7 @@ class HotelManagementSystem:
 
         # ===================== 1st Image (Next to the 2nd Image) ==================
         try:
-            img1 = Image.open("banner2.png")
+            img1 = Image.open(r"C:\Users\User\Music\pythonProject2\1photor.jpeg")
             img1 = img1.resize((1320, 140), Image.LANCZOS)  # Adjusted width to fit next to the second image
             self.photoimg1 = ImageTk.PhotoImage(img1)
 
@@ -32,7 +32,7 @@ class HotelManagementSystem:
             print("Image file not found. Please check the path for the first image.")
 
         # ===================== Title (below the images) =====================
-        lbl_title = Label(self.root, text="HOTEL MANAGEMENT SYSTEM", font=("times new roman", 40, "bold"),
+        lbl_title = Label(self.root, text="BAYOT KA NOH?? EHHHHH", font=("times new roman", 40, "bold"),
                           bg="#89b0a4", fg="#f7e7ce", bd=4, relief=RIDGE)
         lbl_title.place(x=0, y=140, width=1550, height=50)
 
@@ -71,7 +71,7 @@ class HotelManagementSystem:
         logout_btn.grid(row=4, column=0, pady=5)
 
         # ===================== Right Side Image =====================
-        img3 = Image.open("menubg.jpg")
+        img3 = Image.open(r"C:\Users\User\Music\pythonProject2\rightbuttom..jpeg")
         img3 = img3.resize((1310, 590), Image.LANCZOS)  # Adjust the size as needed
         self.photoimg3 = ImageTk.PhotoImage(img3)
 
@@ -79,20 +79,20 @@ class HotelManagementSystem:
         lblimg1.place(x=225, y=0, width=1310, height=590)
 
         # ===================== Down Images =====================
-        img4 = Image.open("leftbuttom1.0.jpeg")
+        img4 = Image.open(r"C:\Users\User\Music\pythonProject2\leftbuttom1.0.jpeg")
         img4 = img4.resize((230, 210), Image.LANCZOS)  # Adjust the size as needed
         self.photoimg4 = ImageTk.PhotoImage(img4)
 
         lblimg1 = Label(main_frame, image=self.photoimg4, bd=4, relief=RIDGE)
         lblimg1.place(x=0, y=250, width=230, height=200)
 
-        img5 = Image.open("leftbuttom1.2.jpeg")
+        img5 = Image.open(r"C:\Users\User\Music\pythonProject2\leftbuttom1.2.jpeg")
         img5 = img5.resize((230, 190), Image.LANCZOS)  # Adjust the size as needed
         self.photoimg5 = ImageTk.PhotoImage(img5)
 
         lblimg1 = Label(main_frame, image=self.photoimg5, bd=4, relief=RIDGE)
         lblimg1.place(x=0, y=420, width=230, height=190)
-    
+
     def cust_details(self):
         self.new_window=Toplevel(self.root)
         self.app=Cust_Win(self.new_window)
