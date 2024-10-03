@@ -1,12 +1,14 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from customer import Cust_Win
+from room import Roombooking
 
 class HotelManagementSystem:
     def __init__(self, root):
         self.root = root
         self.root.title("Hotel Management System")
-        self.root.geometry("1550x800+0+0")  # Window size
+        # self.root.geometry("1550x800+0+0")  # Window size
+        self.root.state("zoomed")
 
         # ===================== 2nd Image (Left Side) ==================
         try:
@@ -42,7 +44,7 @@ class HotelManagementSystem:
 
         # ===================== Menu Label =====================
         lbl_menu = Label(main_frame, text="MENU", font=("times new roman", 20, "bold"),
-                         bg="#89b0a4", fg="#f7e7ce", bd=4, relief=RIDGE)
+                        bg="#0F3325", fg="white", bd=4, relief=RIDGE)
         lbl_menu.place(x=0, y=0, width=230)
 
         # ===================== Button Frame =====================
@@ -54,7 +56,7 @@ class HotelManagementSystem:
                           bg="#89b0a4", fg="#f7e7ce", bd=0)
         cust_btn.grid(row=0, column=0, pady=1)
 
-        room_btn = Button(btn_frame, text="ROOM", width=22, font=("times new roman", 14, "bold"),
+        room_btn = Button(btn_frame, text="ROOM",command=self.room_details, width=22, font=("times new roman", 14, "bold"),
                           bg="#89b0a4", fg="#f7e7ce", bd=0)
         room_btn.grid(row=1, column=0, pady=5)
 
@@ -96,7 +98,10 @@ class HotelManagementSystem:
     def cust_details(self):
         self.new_window=Toplevel(self.root)
         self.app=Cust_Win(self.new_window)
-
+    
+    def room_details(self):
+        self.new_window = Toplevel(self.root)
+        self.app=Roombooking(self.new_window)
 if __name__ == "__main__":
     root = Tk()
     obj = HotelManagementSystem(root)

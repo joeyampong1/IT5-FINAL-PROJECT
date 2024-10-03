@@ -11,12 +11,12 @@ class Cust_Win:
     def __init__(self, root):
         self.root = root
         self.root.title("Customer")
-        self.root.geometry("1200x550+230+220")
+        self.root.geometry("1135x550+220+220")
 
         # ================== Title (below the images) =====================
         lbl_title = Label(self.root, text="ADD CUSTOMER DETAILS", font=("times new roman", 18, "bold"),
                           bg="#89b0a4", fg="#f7e7ce", bd=4, relief=RIDGE)
-        lbl_title.place(x=0, y=0, width=1295, height=50)
+        lbl_title.place(x=0, y=0, width=1290, height=50)
 
         # ================== Logo Image =====================
         try:
@@ -135,7 +135,7 @@ class Cust_Win:
                             bg="#89b0a4", fg="white")
         lblSearchby.grid(row=0, column=0, sticky=W, padx=2)
 
-        combo_search = ttk.Combobox(Table_Frame, font=("times new roman", 12, "bold"), width=24, state="readonly")
+        combo_search = ttk.Combobox(Table_Frame, font=("times new roman", 12, "bold"), width=15, state="readonly")
         combo_search["values"] = ("Mobile", "Ref No", "ID Proof")
         combo_search.grid(row=0, column=1, padx=2)
 
@@ -152,7 +152,7 @@ class Cust_Win:
 
         # ================== Details Table =====================
         details_table = Frame(Table_Frame, bd=2, relief=RIDGE)
-        details_table.place(x=0, y=50, width=860, height=350)
+        details_table.place(x=0, y=50, width=800, height=350)
 
         scroll_x = ttk.Scrollbar(details_table, orient=HORIZONTAL)
         scroll_y = ttk.Scrollbar(details_table, orient=VERTICAL)
