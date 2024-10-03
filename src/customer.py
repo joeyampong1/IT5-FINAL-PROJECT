@@ -2,7 +2,6 @@ from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk
 
-
 class Table_Frame:
     pass
 
