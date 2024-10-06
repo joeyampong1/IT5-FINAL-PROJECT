@@ -18,5 +18,7 @@ class HotelManagementSystemMain:
         self.menu = HotelManagementSystem(self.root)
         self.menu.pack(fill="both", expand=True)
 
+    
+
 if __name__ == "__main__":
     main = HotelManagementSystemMain()
