@@ -2,6 +2,8 @@ from tkinter import*
 from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
+from Register import Register
+from Menu import HotelManagementSystem
 import mysql.connector
 
 def main():
@@ -29,10 +31,10 @@ class Login_Window:
         heading = Label(panel, text="Welcome", font=("Garamond", 32, "bold"), fg='white', bg= "#89b0a4")
         heading.place(x=80, y=20)
 
-        username_label = Label(panel, text="Username", font=("Arial", 12), bg= "#89b0a4")
-        username_label.place(x=30, y=80)
-        self.username_entry = Entry(panel, font=("Arial", 12), width=31)
-        self.username_entry.place(x=30, y=110)
+        email_label = Label(panel, text="Email", font=("Arial", 12), bg= "#89b0a4")
+        email_label.place(x=30, y=80)
+        self.email_entry = Entry(panel, font=("Arial", 12), width=31)
+        self.email_entry.place(x=30, y=110)
 
         password_label = Label(panel, text="Password", font=("Arial", 12), bg= "#89b0a4")
         password_label.place(x=30, y=140)
@@ -43,7 +45,7 @@ class Login_Window:
         show_password_check = Checkbutton(panel, text="Show Password", font=("Arial", 12), variable=show_password_var, onvalue=1, offvalue=0, bg="#89b0a4", command=self.show_password)
         show_password_check.place(x=30, y=200)
 
-        login_button = Button(panel, text="Login", font=("Garamond", 16, "bold"), width=20, fg="white", bg="#aeaf95", command=self.login)
+        login_button = Button(panel, text="Login", command=self.login, font=("Garamond", 16, "bold"), width=20, fg="white", bg="#aeaf95")
         login_button.place(x=45, y=240)
 
         register_button = Button(panel, text="New User Register",command=self.register_window, font=("Garamond", 12, "bold"),borderwidth=0, fg="white", bg="#89b0a4")
@@ -66,8 +68,13 @@ class Login_Window:
         self.new_window = Toplevel(self.root)
         self.app = Register(self.new_window)
 
+    def menu_window(self):
+        self.root_menu = Tk()
+        self.app = HotelManagementSystem(self.root_menu)
+        self.root_menu.mainloop()    
+
     def login(self):
-        username = self.username_entry.get()
+        username = self.email_entry.get()
         password = self.password_entry.get()
         conn = mysql.connector.connect(host="localhost", user="root", password="", database="hotel_management_system")
         my_cursor = conn.cursor()
@@ -79,6 +86,8 @@ class Login_Window:
             messagebox.showerror("Login Failed", "Invalid credentials!")
         else:
             messagebox.showinfo("Login Success", f"Welcome {row[1]}!")
+            self.root.destroy() 
+            self.menu_window()         
         conn.close()
 
 

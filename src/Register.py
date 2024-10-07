@@ -7,7 +7,7 @@ import mysql.connector
 class Register():
     def __init__(self, root):
         self.root = root
-        self.root.title = ("Register")
+        self.root.title("Register")
         self.root.resizable(0,0)
         
         window_width = 960
@@ -39,10 +39,11 @@ class Register():
         frame.place(x = 350, y = 80, width = 580, height =500)
 
         register_lbl = Label(frame, text= "REGISTER HERE", font=("times new roman", 20, "bold"), fg = "darkgreen", bg = "white")
-        register_lbl.place(x = 200, y = 20)
+        register_lbl.place(x = 180, y = 20)
 
 
         #==============Label and Entry==================
+
         fname = Label(frame, text = "First Name", font=("times new roman", 15, "bold"), bg="white", fg= "black")
         fname.place(x = 20, y = 100)
 
@@ -106,7 +107,7 @@ class Register():
         register_now_button.place(x= 20, y=430, width= 250, height= 50)
 
         login_button = Button(frame, text="Login Now", font=("Garamond", 12, "bold"), 
-                            borderwidth=3, relief="ridge", fg="white", bg="blue")
+                            borderwidth=3, relief="ridge", fg="white", bg="blue" ,command=self.login_window)
         login_button.place(x=300, y=430, width= 250, height= 50)
 
         #=========== FUNCTION DECLARATION =========
@@ -127,21 +128,25 @@ class Register():
             if row != None:
                 messagebox.showerror("Error", "User  Already Exist, Please Try Another Email")
             else:
-                my_cursor.execute("insert into users values(NULL, %s, %s, %s, %s, %s, %s, %s)", (
+                my_cursor.execute("insert into users (fname, lname, contact, email, securityQ, securityA, password) values(%s, %s, %s, %s, %s, %s, %s)", (
                     self.var_fname.get(),
                     self.var_lname.get(),
                     self.var_contact.get(),
                     self.var_email.get(),
                     self.var_securityQ.get(),
                     self.var_securityA.get(),
-                    self.var_pass.get(),
+                    self.var_pass.get()
                 ))
 
             conn.commit()
             conn.close()
             messagebox.showinfo("Success", "Register Successfully")
-            
-    
+
+    def login_window(self):
+        self.root.destroy()  # Destroy current register window
+        import Login  # Import main function from Login module here
+        Login.main()
+        
     def center_window(self, win, width, height):  
         screen_width = win.winfo_screenwidth()
         screen_height = win.winfo_screenheight()
