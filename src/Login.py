@@ -52,7 +52,7 @@ class Login_Window:
         register_button.place(x= 30, y=305, width= 135)
 
         # Forget Pass Button
-        forget_button = Button(panel, text="Forget Password", font=("Garamond", 12, "bold"),borderwidth=0, fg="white", bg="#89b0a4")
+        forget_button = Button(panel, text="Forget Password",command = self.forgot_password_window, font=("Garamond", 12, "bold"),borderwidth=0, fg="white", bg="#89b0a4")
         forget_button.place(x=30, y=340, width= 120)
         
     def center_window(self, win, width, height):  
@@ -67,6 +67,81 @@ class Login_Window:
     def register_window(self):
         self.new_window = Toplevel(self.root)
         self.app = Register(self.new_window)
+    
+    #==================================== RESET PASSWORD ==========================
+    def reset_pass(self):
+        if self.combo_security_Q.get()=="Select":
+            messagebox.showerror("Error", "Select Security Question")
+        elif self.security_entry.get()=="":
+            messagebox.showerror("Error", "Please enter the answer")
+        elif self.new_password_entry.get()=="":
+            messagebox.showerror("Error", "Please enter the new password")
+        else:
+            conn = mysql.connector.connect(host="localhost", user="root", password="", database="hotel_management_system")
+            my_cursor = conn.cursor()
+            query = ("select * from users where email=%s and securityQ =%s and SecurityA = %s")
+            value = (self.email_entry.get(), self.combo_security_Q.get(),self.security_entry.get())
+            my_cursor.execute(query, value)
+            row = my_cursor.fetchone()
+
+            if row == None:
+                messagebox.showerror("Error","Please enter correct answer")
+            else:
+                query = ("update users set password = %s where email =%s")
+                value = (self.new_password_entry.get(),self.email_entry.get())
+                my_cursor.execute(query,value)
+
+                conn.commit()
+                conn.close()
+                messagebox.showinfo("Info","Your password has been reset, please login with the new password")
+
+    #==================================== FORGOT PASSWORD WINDOW ==================
+    def forgot_password_window(self):
+        if self.email_entry.get()=="":
+            messagebox.showerror("Error","Please enter the Email Address to reset password")
+        else:
+            conn = mysql.connector.connect(host="localhost", user="root", password="", database="hotel_management_system")
+            my_cursor = conn.cursor()
+            query = ("select * from users where email = %s")
+            value = (self.email_entry.get(),)
+            my_cursor.execute(query, value)
+            row = my_cursor.fetchone()
+            # print(row)
+            if row == None:
+                messagebox.showerror("My Error","Please enter the valid email")
+            else:
+                conn.close()
+                self.root2 = Toplevel()
+                self.root2.title("Forgot Password")
+                self.root2.geometry("300x330+575+375")
+
+                l = Label(self.root2, text="Forgot Password", font = ("times new roman", 20, "bold"),fg = "red", bg= "white")
+                l.place(x = 0, y = 10, relwidth= 1)
+                
+                security_Q = Label(self.root2, text="Select Security Questions", font= ("times new roman", 15, "bold"), bg = "white", fg = "black")
+                security_Q.place(x=20, y=60)
+                
+                self.combo_security_Q = ttk.Combobox(self.root2, font = ("times new roman", 15, "bold"))
+                self.combo_security_Q['values'] = ('Select', 'Your Pet Name', 'Your Birth Place', 'Your Favorite Color', 'Your Best Friend Name')
+                self.combo_security_Q.place(x =20, y = 100, width=250)
+                self.combo_security_Q.current(0)
+
+                security_A = Label(self.root2, text="Select Answer", font= ("times new roman", 15, "bold"), bg = "white", fg = "black")
+                security_A.place(x=20, y=140)
+
+                self.security_entry = Entry(self.root2,font =("times new roman", 15))
+                self.security_entry.place(x=20, y=170, width=250)
+
+                new_password = Label(self.root2, text="New Password", font= ("times new roman", 15, "bold"), bg = "white", fg = "black")
+                new_password.place(x=20, y=210)
+
+                self.new_password_entry = Entry(self.root2,font =("times new roman", 15))
+                self.new_password_entry.place(x=20, y=240, width=250)
+
+                btn = Button(self.root2, text = "Reset",command=self.reset_pass,font = ("times new roman", 15, "bold"), fg = "white", bg= "green")
+                btn.place(x=100, y = 280)
+
+
 
     def menu_window(self):
         self.root_menu = Tk()
@@ -96,15 +171,6 @@ class Login_Window:
             self.password_entry.config(show='')
         else:
             self.password_entry.config(show='*')
-    
-    def center_window(self, win, width, height):  
-        screen_width = win.winfo_screenwidth()
-        screen_height = win.winfo_screenheight()
-        
-        x = (screen_width // 2) - (width // 2)
-        y = (screen_height // 2) - (height // 2) - 30
-        
-        win.geometry(f'{width}x{height}+{x}+{y}')
 
 
 if __name__ == "__main__":
