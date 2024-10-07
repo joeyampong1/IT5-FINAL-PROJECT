@@ -144,9 +144,8 @@ class Register():
 
     def login_window(self):
         self.root.destroy()  # Destroy current register window
-        import Login  # Import main function from Login module here
-        Login.main()
-        
+        import Login
+        Login.main() # Destroy current register window        
     def center_window(self, win, width, height):  
         screen_width = win.winfo_screenwidth()
         screen_height = win.winfo_screenheight()
