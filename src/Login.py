@@ -2,6 +2,7 @@ from tkinter import*
 from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
+import mysql.connector
 
 def main():
     win = Tk()
@@ -68,12 +69,19 @@ class Login_Window:
     def login(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
-        if username == "admin" and password == "admin":
-            messagebox.showinfo("Login Success", f"Welcome {username}!")
-        else:
+        conn = mysql.connector.connect(host="localhost", user="root", password="", database="hotel_management_system")
+        my_cursor = conn.cursor()
+        query = ("select * from users where email = %s and password = %s")
+        value = (username, password)
+        my_cursor.execute(query, value)
+        row = my_cursor.fetchone()
+        if row == None:
             messagebox.showerror("Login Failed", "Invalid credentials!")
+        else:
+            messagebox.showinfo("Login Success", f"Welcome {row[1]}!")
+        conn.close()
 
-    
+
     def show_password(self):
         if self.password_entry.cget('show') == '*':
             self.password_entry.config(show='')
