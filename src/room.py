@@ -233,19 +233,112 @@ class Roombooking:
         
     # ==================== All Data Fetch =======================
     def Fetch_contact(self):
-        if self.var_conatct.get() == "":
+        if self.var_contact.get() == "":
             messagebox.showerror("Error", "Please enter Contact Number", parent=self.root)
         else:
-            pass  # connect to customer class "input mysql.connector here And cursor to Fetch data"
-                  # create a small frame to show data
-                  # name
-                  # gender
-                  # email
-                  # nationality
-                  # Address
+            conn = mysql.connector.connect(
+            host="localhost",
+            username="root",
+            password="Test@123",
+            database="management"
+        )
+            my_cursor = conn.cursor()
+            query = "SELECT Name FROM customer WHERE Mobile=%s"
+            value = (self.var_contact.get(),)
+            my_cursor.execute(query, value)
+            row = my_cursor.fetchone()
         
-         # pwedi ra nako e send ang code inig kapoyan mo mag tan-aw sa video, just ask me
-         # kay mag error sya kung ibutang nako ang code diri tapos wala ang DATABASE ug Customer Class    
+        if row is None:
+            messagebox.showerror("Error", "This number Not Found", parent=self.root)
+        else:
+            conn.commit()
+            conn.close()
+            
+            showDataframe = Frame(self.root, bd=4, relief=RIDGE, padx=2)
+            showDataframe.place(x=455, y=55, width=300, height=180)
+            # =================== Name =====================
+            lblName = Label(showDataframe, text="Name:", font=("arial", 12, "bold"))
+            lblName.place(x=0, y=0)
+            lbl = Label(showDataframe, text=row[0], font=("arial", 12, "bold"))
+            lbl.place(x=90,y=0)
+
+
+             # ================== Gender ===================
+            conn = mysql.connector.connect(
+            host="localhost",
+            username="root",
+            password="Test@123",
+            database="management")
+
+            my_cursor = conn.cursor()
+            query = "SELECT Gender FROM customer WHERE Mobile=%s"
+            value = (self.var_contact.get(),)  # Corrected from self.var_conatct.get to self.var_contact.get()
+            my_cursor.execute(query, value)
+            row = my_cursor.fetchone()
+
+            lblGender = Label(showDataframe, text="Gender:", font=("arial", 12, "bold"))
+            lblGender.place(x=0, y=30)
+
+            lblGenderValue = Label(showDataframe, text=row[0] if row else "N/A", font=("arial", 12, "bold"))  # Added check for row
+            lblGenderValue.place(x=90, y=30)
+
+            # ===================== Email ===================
+            conn = mysql.connector.connect(
+             host="localhost",
+            user="root",
+            password="Test@123",
+            database="management" )
+
+            my_cursor = conn.cursor()
+            query = "SELECT Email FROM customer WHERE Mobile=%s"
+            value = (self.var_contact.get(),)
+            my_cursor.execute(query, value)
+            row = my_cursor.fetchone()
+
+            lblEmail = Label(showDataframe, text="Email:", font=("arial", 12, "bold"))
+            lblEmail.place(x=0, y=60)
+
+            lblEmailValue = Label(showDataframe, text=row[0] if row else "N/A", font=("arial", 12, "bold"))  # Added check for row
+            lblEmailValue.place(x=90, y=60)
+
+            # ========== Nationality ==========
+            conn = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="Test@123",
+            database="management")
+            my_cursor = conn.cursor()
+            query = "SELECT Nationality FROM customer WHERE Mobile=%s"
+            value = (self.var_contact.get(),)
+            my_cursor.execute(query, value)
+            row = my_cursor.fetchone()
+
+            lblNationality = Label(showDataframe, text="Nationality:", font=("arial", 12, "bold"))
+            lblNationality.place(x=0, y=90)
+
+            lblNationalityValue = Label(showDataframe, text=row[0] if row else "N/A", font=("arial", 12, "bold"))
+            lblNationalityValue.place(x=90, y=90)
+
+            # ========== Address ==========
+            conn = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="Test@123",
+            database="management")
+
+            my_cursor = conn.cursor()
+            query = "SELECT Address FROM customer WHERE Mobile=%s"
+            value = (self.var_contact.get(),)
+            my_cursor.execute(query, value)
+            row = my_cursor.fetchone()
+
+            lblAddress = Label(showDataframe, text="Address:", font=("arial", 12, "bold"))
+            lblAddress.place(x=0, y=120)
+
+            lblAddressValue = Label(showDataframe, text=row[0] if row else "N/A", font=("arial", 12, "bold"))
+            lblAddressValue.place(x=90, y=120)
+
+            conn.close()    
         
 if __name__ == "__main__":
     root = Tk()
