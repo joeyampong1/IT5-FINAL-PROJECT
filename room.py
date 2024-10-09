@@ -2,10 +2,10 @@ from tkinter import *
 from PIL import Image, ImageTk  # pip install pillow
 from tkinter import ttk
 import random
-# diri e import ang mysql connector
+
 from tkinter import messagebox
-
-
+import os
+import mysql.connector
 class Roombooking:
     def __init__(self, root):
         self.root = root
@@ -30,9 +30,8 @@ class Roombooking:
         title.place(x=0, y=0, width=1295, height=50)
         
         
-        # Pwedi rani kuhaon ang "try except" na statement inig balak ninyo butangan og logo 
+       
         #================Logo================
-        # Try to load image
         
         try:
             img2 = Image.open("logo.jpeg")
@@ -154,18 +153,24 @@ class Roombooking:
         btnReset.grid(row=0, column=3, padx=1)
         
         
-        # Pwedi rani kuhaon ang "try except" na statement inig ma butangan og image na para jud ani na frame
-        # ==================== Right Side Image ====================
+         # ========================= Background image =========================
         try:
-            img3 = Image.open("bed.jpg")
-            img3 = img3.resize((520, 200), Image.LANCZOS)
+            img3 = Image.open(r"C:\\Users\\HUAWEI\\OneDrive\Documents\\GitHub\\IT5-FINAL-PROJECT\\hotel_bedroom.jpg")
+            img3 = img3.resize((430, 300), Image.LANCZOS)
             self.photoimg3 = ImageTk.PhotoImage(img3)
 
             lblimg = Label(self.root, image=self.photoimg3, bd=0, relief=RIDGE)
+            lblimg.place(x=700, y=60)  # Example position. Adjust x and y as needed.
         except Exception as e:
             print(f"Error loading image: {e}")
-             # Display a placeholder label if the image cannot be loaded
+           
             lblimg = Label(self.root, text="Image not available", font=("arial", 12, "bold"), bg="lightgrey")
+            lblimg.place(x=300, y=50)  
+        
+        # ========================= Table Frame Search System =========================
+        Table_Frame = LabelFrame(self.root, bd=2, relief=RIDGE, text="View Details And Search System", font=("arial", 12, "bold"))
+        Table_Frame.place(x=435, y=280, width=860, height=260)
+
             
         
         # ========================= Table Frame Search System =========================
@@ -220,7 +225,7 @@ class Roombooking:
         self.room_table["show"] = "headings"
 
         # Change "mobile" to "contact"
-        self.room_table.column("contact", width=160)  # Corrected here
+        self.room_table.column("contact", width=160)  
         self.room_table.column("checkin", width=80)
         self.room_table.column("checkout", width=80)
         self.room_table.column("roomtype", width=160)
@@ -228,28 +233,117 @@ class Roombooking:
         self.room_table.column("meal", width=100)
         self.room_table.column("noofdays", width=60)
 
-        # Pack the Treeview widget into the details_table frame
+       
         self.room_table.pack(fill=BOTH, expand=True)
         
     # ==================== All Data Fetch =======================
     def Fetch_contact(self):
-        if self.var_conatct.get() == "":
+        if self.var_contact.get() == "":
             messagebox.showerror("Error", "Please enter Contact Number", parent=self.root)
         else:
-            pass  # connect to customer class "input mysql.connector here And cursor to Fetch data"
-                  # create a small frame to show data
-                  # name
-                  # gender
-                  # email
-                  # nationality
-                  # Address
+            conn = mysql.connector.connect(
+            host="localhost",
+            username="root",
+            password="Test@123",
+            database="management"
+        )
+            my_cursor = conn.cursor()
+            query = "SELECT Name FROM customer WHERE Mobile=%s"
+            value = (self.var_contact.get(),)
+            my_cursor.execute(query, value)
+            row = my_cursor.fetchone()
         
-         # pwedi ra nako e send ang code inig kapoyan mo mag tan-aw sa video, just ask me
-         # kay mag error sya kung ibutang nako ang code diri tapos wala ang DATABASE ug Customer Class    
+        if row is None:
+            messagebox.showerror("Error", "This number Not Found", parent=self.root)
+        else:
+            conn.commit()
+            conn.close()
+            
+            showDataframe = Frame(self.root, bd=4, relief=RIDGE, padx=2)
+            showDataframe.place(x=455, y=55, width=300, height=180)
+            # =================== Name =====================
+            lblName = Label(showDataframe, text="Name:", font=("arial", 12, "bold"))
+            lblName.place(x=0, y=0)
+            lbl = Label(showDataframe, text=row[0], font=("arial", 12, "bold"))
+            lbl.place(x=90,y=0)
 
-    # =============================== Add Data ==========================
-    def add_data(self):
-        pass
+
+             # ================== Gender ===================
+            conn = mysql.connector.connect(
+            host="localhost",
+            username="root",
+            password="Test@123",
+            database="management")
+
+            my_cursor = conn.cursor()
+            query = "SELECT Gender FROM customer WHERE Mobile=%s"
+            value = (self.var_contact.get(),)  # Corrected from self.var_conatct.get to self.var_contact.get()
+            my_cursor.execute(query, value)
+            row = my_cursor.fetchone()
+
+            lblGender = Label(showDataframe, text="Gender:", font=("arial", 12, "bold"))
+            lblGender.place(x=0, y=30)
+
+            lblGenderValue = Label(showDataframe, text=row[0] if row else "N/A", font=("arial", 12, "bold"))  # Added check for row
+            lblGenderValue.place(x=90, y=30)
+
+            # ===================== Email ===================
+            conn = mysql.connector.connect(
+             host="localhost",
+            user="root",
+            password="Test@123",
+            database="management" )
+
+            my_cursor = conn.cursor()
+            query = "SELECT Email FROM customer WHERE Mobile=%s"
+            value = (self.var_contact.get(),)
+            my_cursor.execute(query, value)
+            row = my_cursor.fetchone()
+
+            lblEmail = Label(showDataframe, text="Email:", font=("arial", 12, "bold"))
+            lblEmail.place(x=0, y=60)
+
+            lblEmailValue = Label(showDataframe, text=row[0] if row else "N/A", font=("arial", 12, "bold"))  # Added check for row
+            lblEmailValue.place(x=90, y=60)
+
+            # ========== Nationality ==========
+            conn = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="Test@123",
+            database="management")
+            my_cursor = conn.cursor()
+            query = "SELECT Nationality FROM customer WHERE Mobile=%s"
+            value = (self.var_contact.get(),)
+            my_cursor.execute(query, value)
+            row = my_cursor.fetchone()
+
+            lblNationality = Label(showDataframe, text="Nationality:", font=("arial", 12, "bold"))
+            lblNationality.place(x=0, y=90)
+
+            lblNationalityValue = Label(showDataframe, text=row[0] if row else "N/A", font=("arial", 12, "bold"))
+            lblNationalityValue.place(x=90, y=90)
+
+            # ========== Address ==========
+            conn = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="Test@123",
+            database="management")
+
+            my_cursor = conn.cursor()
+            query = "SELECT Address FROM customer WHERE Mobile=%s"
+            value = (self.var_contact.get(),)
+            my_cursor.execute(query, value)
+            row = my_cursor.fetchone()
+
+            lblAddress = Label(showDataframe, text="Address:", font=("arial", 12, "bold"))
+            lblAddress.place(x=0, y=120)
+
+            lblAddressValue = Label(showDataframe, text=row[0] if row else "N/A", font=("arial", 12, "bold"))
+            lblAddressValue.place(x=90, y=120)
+
+            conn.close() 
         
 if __name__ == "__main__":
     root = Tk()
